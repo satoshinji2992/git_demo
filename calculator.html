@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简易计算器</title>
+<style>
+    body {
+        font-family: "Microsoft YaHei", sans-serif;
+        max-width: 420px;
+        margin: 60px auto;
+        padding: 0 16px;
+        background: #f6f8fa;
+    }
+    .card {
+        background: #fff;
+        border: 1px solid #d0d7de;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+    }
+    h1 {
+        font-size: 20px;
+        text-align: center;
+        margin-top: 0;
+    }
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #d0d7de;
+        border-radius: 6px;
+        margin-bottom: 12px;
+    }
+    .ops {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+    .ops button {
+        padding: 10px 0;
+        font-size: 16px;
+        border: 1px solid #d0d7de;
+        border-radius: 6px;
+        background: #f6f8fa;
+        cursor: pointer;
+    }
+    .ops button:hover {
+        background: #eaeef2;
+    }
+    #result {
+        text-align: center;
+        font-size: 18px;
+        min-height: 28px;
+        color: #1f2328;
+    }
+    #result.error {
+        color: #cf222e;
+    }
+</style>
+</head>
+<body>
+<div class="card">
+    <h1>===== 简易计算器 =====</h1>
+    <input id="a" type="number" placeholder="请输入第一个数" step="any">
+    <input id="b" type="number" placeholder="请输入第二个数" step="any">
+    <div class="ops">
+        <button onclick="calc('+')" title="加法">+</button>
+        <button onclick="calc('-')" title="减法">-</button>
+        <button onclick="calc('*')" title="乘法">*</button>
+        <button onclick="calc('/')" title="除法">/</button>
+        <button onclick="calc('%')" title="取模">%</button>
+        <button onclick="calc('**')" title="乘方">xʸ</button>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    function calc(op) {
+        const a = parseFloat(document.getElementById("a").value);
+        const b = parseFloat(document.getElementById("b").value);
+        const out = document.getElementById("result");
+        out.classList.remove("error");
+        if (isNaN(a) || isNaN(b)) {
+            out.textContent = "请输入两个有效的数字";
+            out.classList.add("error");
+            return;
+        }
+        if ((op === "/" || op === "%") && b === 0) {
+            out.textContent = "除数不能为 0";
+            out.classList.add("error");
+            return;
+        }
+        if (op === "**" && a === 0 && b < 0) {
+            out.textContent = "0 不能取负指数";
+            out.classList.add("error");
+            return;
+        }
+        const value = { "+": a + b, "-": a - b, "*": a * b, "/": a / b, "%": a % b, "**": a ** b }[op];
+        const symbol = op === "**" ? "^" : op;
+        const shown = parseFloat(value.toPrecision(12));
+        out.textContent = `结果: ${a} ${symbol} ${b} = ${shown}`;
+    }
+</script>
+</body>
+</html>
