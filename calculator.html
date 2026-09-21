@@ -99,7 +99,8 @@
         }
         const value = { "+": a + b, "-": a - b, "*": a * b, "/": a / b, "%": a % b, "**": a ** b }[op];
         const symbol = op === "**" ? "^" : op;
-        out.textContent = `结果: ${a} ${symbol} ${b} = ${value}`;
+        const shown = parseFloat(value.toPrecision(12));
+        out.textContent = `结果: ${a} ${symbol} ${b} = ${shown}`;
     }
 </script>
 </body>
