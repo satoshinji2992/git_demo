@@ -25,12 +25,19 @@ def mod(a, b):
     return a % b
 
 
+def pow(a, b):
+    if a == 0 and b < 0:
+        raise ValueError("0 不能取负指数")
+    return a ** b
+
+
 OPERATIONS = {
     "1": ("+ 加法", add),
     "2": ("- 减法", sub),
     "3": ("* 乘法", mul),
     "4": ("/ 除法", div),
     "5": ("% 取模", mod),
+    "6": ("** 乘方", pow),
 }
 
 
@@ -38,7 +45,7 @@ def main():
     print("===== 简易计算器 =====")
     for key, (label, _) in OPERATIONS.items():
         print(f"{key}. {label}")
-    choice = input("请选择运算 (1/2/3/4/5): ").strip()
+    choice = input("请选择运算 (1-6): ").strip()
     if choice not in OPERATIONS:
         print("无效选项")
         return

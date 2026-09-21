@@ -35,7 +35,7 @@
     }
     .ops {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         margin-bottom: 16px;
     }
@@ -72,6 +72,7 @@
         <button onclick="calc('*')" title="乘法">*</button>
         <button onclick="calc('/')" title="除法">/</button>
         <button onclick="calc('%')" title="取模">%</button>
+        <button onclick="calc('**')" title="乘方">xʸ</button>
     </div>
     <div id="result"></div>
 </div>
@@ -91,8 +92,14 @@
             out.classList.add("error");
             return;
         }
-        const value = { "+": a + b, "-": a - b, "*": a * b, "/": a / b, "%": a % b }[op];
-        out.textContent = `结果: ${a} ${op} ${b} = ${value}`;
+        if (op === "**" && a === 0 && b < 0) {
+            out.textContent = "0 不能取负指数";
+            out.classList.add("error");
+            return;
+        }
+        const value = { "+": a + b, "-": a - b, "*": a * b, "/": a / b, "%": a % b, "**": a ** b }[op];
+        const symbol = op === "**" ? "^" : op;
+        out.textContent = `结果: ${a} ${symbol} ${b} = ${value}`;
     }
 </script>
 </body>
